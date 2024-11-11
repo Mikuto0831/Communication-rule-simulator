@@ -67,8 +67,8 @@ class Node:
         :param node: ポストを交換するノード
         :param coll_count: 再帰回数
         """
-        # 同期回数のカウント
-        cls.sync_count += 1
+        # 通信回数のカウント(2回(行って戻ってくる)としてカウント)
+        cls.sync_count += 2
 
         if coll_count > cls.max_recursions:
             return
@@ -99,8 +99,8 @@ class Node:
             print(node.get_id())
 
     @classmethod
-    def show_sync_count(cls):
-        print(f"sync_count: {cls.sync_count}")
+    def get_sync_count(cls):
+        return cls.sync_count
 
     @classmethod
     def reset_sync_count(cls):
