@@ -9,13 +9,14 @@ class Node:
     ノードクラス
     主にここを変更する
     """
-    Nodes = []
-    Max_recursions = 4
+    nodes = []
+    max_recursions = 4
+    sync_count = 0
 
     def __init__(self) -> None:
-        self.__id = len(self.__class__.Nodes)
+        self.__id = len(self.__class__.nodes)
         self.__posts = {}
-        self.__class__.Nodes.append(self)
+        self.__class__.nodes.append(self)
 
     # 基本的なデータ操作
     def get_id(self):
@@ -66,11 +67,14 @@ class Node:
         :param node: ポストを交換するノード
         :param coll_count: 再帰回数
         """
-        if coll_count > cls.Max_recursions:
+        # 同期回数のカウント
+        cls.sync_count += 1
+
+        if coll_count > cls.max_recursions:
             return
         # 相手ノードの選択
-        server_node_id = randint(0, len(cls.Nodes) - 1)
-        server_node = cls.Nodes[server_node_id]
+        server_node_id = randint(0, len(cls.nodes) - 1)
+        server_node = cls.nodes[server_node_id]
 
         # ノード間同期
         # REST APIの使用を考えるとPOSTRequestを受け取った側から更新される
@@ -83,13 +87,21 @@ class Node:
     # randomなノードでポスト作成
     @classmethod
     def create_post_by_random_node(cls, title: str, content: str):
-        node_id = randint(0, len(cls.Nodes) - 1)
-        node = cls.Nodes[node_id]
+        node_id = randint(0, len(cls.nodes) - 1)
+        node = cls.nodes[node_id]
         node.create_post(title, content)
         # cls.post_update_by_random_node(node)
 
     @classmethod
     def show_nodes(cls):
-        print("Nodes:")
-        for node in cls.Nodes:
+        print("nodes:")
+        for node in cls.nodes:
             print(node.get_id())
+
+    @classmethod
+    def show_sync_count(cls):
+        print(f"sync_count: {cls.sync_count}")
+
+    @classmethod
+    def reset_sync_count(cls):
+        cls.sync_count = 0

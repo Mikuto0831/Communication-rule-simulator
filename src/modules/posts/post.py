@@ -44,3 +44,4 @@ class Post:
         Postクラスが持っている全てのポスト数を取得する
         """
         return len(cls.posts)
+    
