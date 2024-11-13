@@ -45,3 +45,10 @@ class Post:
         """
         return len(cls.posts)
     
+    @classmethod
+    def reset_class(cls):
+        """
+        Postクラスが持っている全てのポストを削除する
+        """
+        cls.posts = []
+    

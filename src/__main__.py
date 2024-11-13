@@ -4,7 +4,7 @@ from modules.nodes.node import Node
 from modules.posts.post import Post
 
 NODE_NUM = 10
-POST_NUM = 1
+POST_NUM = 10
 SIMULATE_NUM = 1000
 MAX_IGNITION_NUM = 100
 
@@ -12,6 +12,7 @@ def test(max_ignition_num:int = 10):
     full = False
 
     # nodeの作成
+    Node.reset_class()
     nodes = [Node() for _ in range(NODE_NUM)]
 
     # ポスト作成とノード間同期 (ポスト数: POST_NUM, 合計明示的同期回数: )
@@ -26,12 +27,13 @@ def test(max_ignition_num:int = 10):
     else:
         full = True
 
-    # ノードごとのポスト数表示
-    # print("Result:")
-    # for node in nodes:
-    #     print(f"Node {node.get_id()}: {node.count_posts()}")
-    #     # print(node.show_posts())
-    #     print("--------------------")
+    # if not full:
+    #     # ノードごとのポスト数表示
+    #     print("Result:")
+    #     for node in nodes:
+    #         print(f"Node {node.get_id()}: {node.count_posts()}")
+    #         # print(node.show_posts())
+    #         print("--------------------")
 
     return full
 
@@ -42,7 +44,6 @@ if __name__ == '__main__':
     max_sync_cnt = 0
     try:
         for i in range(SIMULATE_NUM):
-            Node.reset_sync_count()
             ignition_full = test(MAX_IGNITION_NUM)
             sync_cnt = Node.get_sync_count()
             if ignition_full:

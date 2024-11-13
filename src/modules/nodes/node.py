@@ -105,3 +105,9 @@ class Node:
     @classmethod
     def reset_sync_count(cls):
         cls.sync_count = 0
+
+    @classmethod
+    def reset_class(cls):
+        cls.nodes = []
+        cls.reset_sync_count()
+        Post.reset_class()
